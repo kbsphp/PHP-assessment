@@ -1,5 +1,4 @@
 <?php
-
 namespace interview;
 
 class Database {
@@ -8,10 +7,9 @@ class Database {
 
     public function __construct() {
         $credentials = new Config_Database();
-
         try {
             $this->link = new \PDO(
-                'mysql:host=' . $credentials['host'] . 'dbname=' . $credentials['database'],
+                'mysql:host=' . $credentials->getHost() . ';dbname=' . $credentials->getDatabase(),
                 $credentials->getUser(),
                 $credentials->getPass(),
                 array(
@@ -93,7 +91,7 @@ class Database {
             Logging::logDBErrorAndExit($e->getMessage());
         }
 
-        if (!empty($results)) {
+        if (!count($results)) {
             return false;
         }
 
@@ -101,3 +99,5 @@ class Database {
     }
     //--------------------------------------------------------------------------
 }
+
+

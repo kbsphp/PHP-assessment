@@ -1,22 +1,21 @@
 <?php
-
 namespace interview;
 
 class Question
 {
 
     public $id;
-    protected $name;
+    public $name;
     public $text;
     public $answer;
     public $created;
 
-    protected $tableName = 'questions';
+    public $tableName = 'questions';
     const      TABLENAME = 'questions';
 
     public function __construct($questionId, Database $db)
     {
-        $sql  = "SELECT * FROM `$this->tableName WHERE `id` = '" . $questionId . "' LIMIT 1;";
+        $sql  = "SELECT * FROM `".$this->tableName."` WHERE `id` = '" . $questionId . "' LIMIT 1;";
 
         $result = $db->getArray($sql);
 
@@ -24,7 +23,7 @@ class Question
         $this->name    = $result[0]['name'];
         $this->text    = $result[0]['text'];
         $this->answer  = $result[0]['answer'];
-        $this->created = $result['created'];
+        $this->created = $result[0]['created'];
     }
     //--------------------------------------------------------------------------
 
@@ -42,16 +41,17 @@ class Question
     public static function getTextById($questionId, Database $db)
     {
         $sql = "SELECT `text` FROM `" . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
+
         $result = $db->getArray($sql);
 
-        return $this->text;
+        return $result[0]['text'];
     }
     //--------------------------------------------------------------------------
 
 
     public static function getAnswerById($questionId, Database $db)
     {
-        $sql = "SELECT `answer` FROM " . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
+        $sql = "SELECT `answer` FROM `" . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
         $result = $db->getArray($sql);
 
         return $result[0]['answer'];
@@ -73,7 +73,7 @@ class Question
     {
         $columns = array(
             'name',
-            'text'
+            'text',
             'answer'
         );
 
